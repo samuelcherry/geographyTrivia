@@ -2,11 +2,6 @@ import { useState } from "react";
 import Globe from "react-globe.gl";
 import countries from "../../small_geoJson.json";
 
-interface FeatureCollection {
-  type: "FeatureCollection";
-  features: Country[];
-}
-
 interface Country {
   type: "Feature";
   properties: {
@@ -56,8 +51,9 @@ function Main() {
     <>
       <Globe
         polygonsData={countries.features}
-        polygonCapColor={(country: Country) => {
-          const name = country.properties.name;
+        polygonCapColor={(country) => {
+          const c = country as Country;
+          const name = c.properties.name;
 
           if (guessedCountries.has(name)) return "#4caf50";
 
@@ -68,12 +64,14 @@ function Main() {
           return "rgba(0,0,0,0)";
         }}
         polygonStrokeColor={() => "#888"}
-        onPolygonClick={(country: Country) => {
+        onPolygonClick={(polygon) => {
+          const country = polygon as Country;
+
           if (guessedCountries.has(country.properties.name)) return;
           setSelectedCountry(country);
         }}
-        onPolygonHover={(country: Country | null) => {
-          setHoverCountry(country);
+        onPolygonHover={(polygon) => {
+          setHoverCountry(polygon as Country | null);
         }}
       />
 
