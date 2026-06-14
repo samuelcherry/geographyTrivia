@@ -47,8 +47,10 @@ function Main() {
     setSelectedCountry(null);
   };
 
+  const score = guessedCountries.size;
   return (
     <>
+      <h1>{score}/195</h1>
       <Globe
         polygonsData={countries.features}
         polygonCapColor={(country) => {
